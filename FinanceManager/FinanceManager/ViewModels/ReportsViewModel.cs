@@ -9,6 +9,7 @@ namespace FinanceManager.ViewModels
 {
     public class ReportsViewModel : BaseViewModel
     {
+        // Вся математика по отчётам живёт в сервисе
         private readonly ReportService _reportService;
 
         private DateTime _dateFrom = DateTime.Today.AddMonths(-1);
@@ -46,9 +47,11 @@ namespace FinanceManager.ViewModels
             set { _total = value; OnPropertyChanged(); }
         }
 
+        // Таблица справа/слева обновляется от этой коллекции
         public ObservableCollection<TransactionItem> FilteredTransactions { get; } =
             new ObservableCollection<TransactionItem>();
 
+        // Данные для круговой диаграммы
         public ObservableCollection<CategorySummary> ExpensesByCategory { get; } =
             new ObservableCollection<CategorySummary>();
 
@@ -60,6 +63,7 @@ namespace FinanceManager.ViewModels
 
         public ReportsViewModel(DataService dataService)
         {
+            // dataService приходит с главного окна, чтобы данные были общие
             _reportService = new ReportService(dataService);
 
             RefreshCommand = new RelayCommand(_ => Refresh());
@@ -92,6 +96,7 @@ namespace FinanceManager.ViewModels
 
         private void Refresh()
         {
+            // Каждый refresh пересобираем коллекции, так проще держать консистентность
             FilteredTransactions.Clear();
             ExpensesByCategory.Clear();
 

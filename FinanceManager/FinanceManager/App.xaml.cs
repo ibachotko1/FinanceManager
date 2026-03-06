@@ -1,11 +1,11 @@
-﻿using System.Configuration;
+using System.Configuration;
 using System.Data;
 using System.Windows;
 
 namespace FinanceManager
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// Точка входа WPF-приложения (ресурсы в App.xaml)
     /// </summary>
     public partial class App : Application
     {

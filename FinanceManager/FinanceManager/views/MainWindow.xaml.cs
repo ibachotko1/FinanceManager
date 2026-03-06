@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -17,6 +17,7 @@ namespace FinanceManager.Views
         public MainWindow()
         {
             InitializeComponent();
+            // VM держит всю логику/данные, окно остаётся тонким
             DataContext = new MainViewModel();
         }
     }

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Height="200" Width="200">
     <Grid>
+        <!-- Рисуем сектора прямо на Canvas (см. code-behind) -->
         <Canvas x:Name="ChartCanvas"/>
     </Grid>
 </UserControl>

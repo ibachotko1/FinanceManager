@@ -15,6 +15,7 @@ namespace FinanceManager.Views
         public CategoryPieChart()
         {
             InitializeComponent();
+            // Перерисовка, если контролу поменяли размер
             SizeChanged += (_, __) => DrawChart();
         }
 
@@ -36,6 +37,7 @@ namespace FinanceManager.Views
         {
             var control = (CategoryPieChart)d;
 
+            // Подписка на CollectionChanged, чтобы диаграмма обновлялась сама
             if (e.OldValue is INotifyCollectionChanged oldCollection)
             {
                 oldCollection.CollectionChanged -= control.OnCollectionChanged;
@@ -56,6 +58,7 @@ namespace FinanceManager.Views
 
         private void DrawChart()
         {
+            // Рисуем "с нуля" — зато не надо думать про диффы сегментов
             ChartCanvas.Children.Clear();
 
             var data = ItemsSource?.Where(c => c.Amount > 0).ToList();
@@ -94,6 +97,7 @@ namespace FinanceManager.Views
                 if (sweepAngle <= 0)
                     continue;
 
+                // Каждый элемент — отдельный сектор (PathGeometry)
                 var path = new Path
                 {
                     Fill = new SolidColorBrush(colors[colorIndex % colors.Length]),

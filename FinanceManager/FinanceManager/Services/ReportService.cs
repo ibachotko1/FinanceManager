@@ -5,6 +5,7 @@ using FinanceManager.Models;
 
 namespace FinanceManager.Services
 {
+    // Подготовка данных для отчётов (фильтры, группировки, суммы)
     public class ReportService
     {
         private readonly DataService _dataService;
@@ -22,7 +23,7 @@ namespace FinanceManager.Services
                     t =>
                         t.Type == TransactionType.Expense
                         && t.Date >= from
-                        && t.Date <= to
+                        && t.Date <= to // границы включительно
                 )
                 .GroupBy(t => t.Category)
                 .ToDictionary(g => g.Key, g => g.Sum(t => t.Amount));
@@ -30,6 +31,7 @@ namespace FinanceManager.Services
 
         public List<Transaction> GetFiltered(DateTime from, DateTime to, TransactionType? type = null)
         {
+            // По умолчанию возвращаем всё за период, а type — опционально
             var query = _dataService.GetAll().Where(t => t.Date >= from && t.Date <= to);
 
             if (type.HasValue)

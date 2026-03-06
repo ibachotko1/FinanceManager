@@ -9,6 +9,7 @@ namespace FinanceManager.Views
         public ReportsWindow(DataService dataService)
         {
             InitializeComponent();
+            // В отчёты прокидываем тот же сервис, что и у главного окна
             DataContext = new ReportsViewModel(dataService);
         }
     }

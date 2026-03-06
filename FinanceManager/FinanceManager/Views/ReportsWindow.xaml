@@ -40,6 +40,7 @@
                            Margin="15,0,5,0"/>
                 <DatePicker SelectedDate="{Binding DateTo}" Width="130"
                             Height="30"/>
+                <!-- Быстрые пресеты периода -->
                 <Button Content="День" Width="80" Height="30"
                         Margin="15,0,5,0"
                         Background="#455A64" Foreground="White"
@@ -167,6 +168,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Text="Расходы по категориям" FontWeight="Bold"
                                Padding="15,10"/>
+                    <!-- ItemsSource приходит из ReportsViewModel -->
                     <views:CategoryPieChart Grid.Row="1"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"

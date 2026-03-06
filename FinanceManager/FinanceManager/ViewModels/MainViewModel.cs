@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,15 +7,17 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using FinanceManager.Helpers;
 using FinanceManager.Services;
+using FinanceManager.Views;
 
 namespace FinanceManager.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
+        // Один источник данных для главного окна и отчётов
         private readonly DataService _dataService;
 
         // Список транзакций — ObservableCollection автоматически
-        // обновляет таблицу когда добавляем или удаляем элементы
+        // обновляет таблицу, когда меняется состав коллекции
         public ObservableCollection<TransactionItem> Transactions { get; set; }
 
         private decimal _balance;
@@ -46,7 +48,7 @@ namespace FinanceManager.ViewModels
             set { _selectedTransaction = value; OnPropertyChanged(); }
         }
 
-        // Команды для кнопок — пока заглушки, откроют окна в следующих этапах
+        // Команды с кнопок внизу окна
         public ICommand AddTransactionCommand { get; }
         public ICommand DeleteTransactionCommand { get; }
         public ICommand OpenReportsCommand { get; }
@@ -56,6 +58,7 @@ namespace FinanceManager.ViewModels
             _dataService = new DataService();
             Transactions = new ObservableCollection<TransactionItem>();
 
+            // Привязки команд, без кода-behind в окне
             AddTransactionCommand = new RelayCommand(_ => OpenAddWindow());
             DeleteTransactionCommand = new RelayCommand(t => DeleteTransaction(t));
             OpenReportsCommand = new RelayCommand(_ => OpenReports());
@@ -63,7 +66,7 @@ namespace FinanceManager.ViewModels
             RefreshAll();
         }
 
-        // Единственный метод обновления — список и суммы всегда синхронизированы
+        // Обновляем и таблицу, и верхние итоги одним проходом
         private void RefreshAll()
         {
             Transactions.Clear();
@@ -79,12 +82,13 @@ namespace FinanceManager.ViewModels
         {
             if (param is TransactionItem item)
             {
+                // Удаление по Id, чтобы не зависеть от состояния UI
                 _dataService.DeleteTransaction(item.Id);
                 RefreshAll();
             }
         }
 
-        // Заглушки — другие участники команды реализуют эти окна
+        // Окно добавления пока заглушка, отчёты уже отдельным окном
         private void OpenAddWindow()
         {
             // TODO: открыть форму добавления транзакции
@@ -92,7 +96,9 @@ namespace FinanceManager.ViewModels
 
         private void OpenReports()
         {
-            // TODO: открыть окно отчётов
+            // Открываем отчёты на тех же данных (один DataService)
+            var reportsWindow = new ReportsWindow(_dataService);
+            reportsWindow.ShowDialog();
         }
     }
 }

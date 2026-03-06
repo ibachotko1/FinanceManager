@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,18 +9,22 @@ using FinanceManager.Models;
 
 namespace FinanceManager.Services
 {
+    // Простой сервис хранения/чтения транзакций (json-файл рядом с exe)
     public class DataService
     {
+        // Файл в рабочей папке приложения
         private readonly string _filePath = "transactions.json";
         private List<Transaction> _transactions;
         private readonly bool _inMemory;
 
         public DataService(bool inMemory = false)
         {
+            // inMemory полезен для тестов/демо, чтобы не трогать файл
             _inMemory = inMemory;
             _transactions = inMemory ? new List<Transaction>() : LoadFromFile();
         }
 
+        // Возвращаем копию, чтобы внешним кодом список случайно не ломали
         public List<Transaction> GetAll() => new List<Transaction>(_transactions);
 
         public void AddTransaction(Transaction t)
@@ -54,6 +58,7 @@ namespace FinanceManager.Services
 
         private List<Transaction> LoadFromFile()
         {
+            // Если файла нет — начинаем с пустого списка
             if (!File.Exists(_filePath)) return new List<Transaction>();
             string json = File.ReadAllText(_filePath);
             return JsonSerializer.Deserialize<List<Transaction>>(json)
@@ -62,6 +67,7 @@ namespace FinanceManager.Services
 
         private void SaveToFile()
         {
+            // Сохраняем с отступами, чтобы удобно было смотреть руками
             string json = JsonSerializer.Serialize(_transactions,
                 new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(_filePath, json);

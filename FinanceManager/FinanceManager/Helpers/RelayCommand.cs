@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +8,7 @@ using System.Windows.Input;
 
 namespace FinanceManager.Helpers
 {
+    // Классический ICommand для MVVM (без лишней магии)
     public class RelayCommand : ICommand
     {
         private readonly Action<object> _execute;
@@ -21,6 +22,7 @@ namespace FinanceManager.Helpers
 
         public event EventHandler CanExecuteChanged
         {
+            // RequerySuggested сам дергается, когда WPF думает что состояние могло поменяться
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
@@ -31,6 +33,7 @@ namespace FinanceManager.Helpers
         public void Execute(object parameter) => _execute(parameter);
 
         public void RaiseCanExecuteChanged() =>
+            // На случай ручного обновления доступности команды
             CommandManager.InvalidateRequerySuggested();
     }
 }

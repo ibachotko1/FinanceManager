@@ -1,5 +1,6 @@
 using System.Windows;
 
+// Стандартные WPF-настройки поиска ресурсов по темам
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None,            //where theme specific resource dictionaries are located
                                                 //(used if a resource is not found in the page,
