@@ -53,6 +53,7 @@ namespace FinanceManager.ViewModels
             new ObservableCollection<CategorySummary>();
 
         public ICommand RefreshCommand { get; }
+        public ICommand SetDayCommand { get; }
         public ICommand SetWeekCommand { get; }
         public ICommand SetMonthCommand { get; }
         public ICommand SetAllCommand { get; }
@@ -62,6 +63,10 @@ namespace FinanceManager.ViewModels
             _reportService = new ReportService(dataService);
 
             RefreshCommand = new RelayCommand(_ => Refresh());
+
+            SetDayCommand = new RelayCommand(
+                _ => SetPeriodAndRefresh(DateTime.Today, DateTime.Today)
+            );
 
             SetWeekCommand = new RelayCommand(
                 _ => SetPeriodAndRefresh(DateTime.Today.AddDays(-7), DateTime.Today)
