@@ -1,0 +1,15 @@
+## Visual Studio / Rider
+.vs/
+*.user
+*.suo
+ 
+## Build output
+bin/
+obj/
+ 
+## NuGet
+*.nupkg
+packages/
+ 
+## Данные приложения (не хранить в репозитории)
+transactions.json
