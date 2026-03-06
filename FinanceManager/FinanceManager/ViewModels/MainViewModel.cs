@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using FinanceManager.Helpers;
 using FinanceManager.Services;
@@ -60,7 +61,9 @@ namespace FinanceManager.ViewModels
 
             // Привязки команд, без кода-behind в окне
             AddTransactionCommand = new RelayCommand(_ => OpenAddWindow());
-            DeleteTransactionCommand = new RelayCommand(t => DeleteTransaction(t));
+            DeleteTransactionCommand = new RelayCommand(
+                param => DeleteTransaction(param),
+                param => param != null);
             OpenReportsCommand = new RelayCommand(_ => OpenReports());
 
             RefreshAll();
@@ -88,10 +91,12 @@ namespace FinanceManager.ViewModels
             }
         }
 
-        // Окно добавления пока заглушка, отчёты уже отдельным окном
         private void OpenAddWindow()
         {
-            // TODO: открыть форму добавления транзакции
+            var addWindow = new AddTransactionWindow(_dataService);
+            addWindow.Owner = Application.Current.MainWindow;
+            addWindow.ShowDialog();
+            RefreshAll();
         }
 
         private void OpenReports()
