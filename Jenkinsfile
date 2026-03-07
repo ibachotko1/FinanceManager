@@ -21,14 +21,22 @@ pipeline {
                 }
             }
         }
+
+        stage('Test') {
+            steps {
+                dir('FinanceManager') {
+                    bat 'dotnet test FinanceManager.Tests --configuration Release --no-build --logger trx'
+                }
+            }
+        }
     }
 
     post {
         success {
-            echo 'Сборка успешна!'
+            echo 'Сборка успешна! Все тесты прошли.'
         }
         failure {
-            echo 'Ошибка сборки. Проверьте последний коммит.'
+            echo 'Ошибка сборки или тестов. Проверьте последний коммит.'
         }
     }
 }
