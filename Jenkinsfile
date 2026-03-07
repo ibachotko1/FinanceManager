@@ -25,10 +25,11 @@ pipeline {
         stage('Test') {
             steps {
                 dir('FinanceManager') {
-                    bat 'dotnet test FinanceManager/FinanceManager.Tests --configuration Release --no-build --logger trx'
+                    bat 'dotnet test FinanceManager/FinanceManager.Tests/FinanceManager.Tests.csproj --configuration Release --no-build --logger trx'
                 }
             }
         }
+    }
 
     post {
         success {
